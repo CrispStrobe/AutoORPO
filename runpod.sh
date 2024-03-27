@@ -40,6 +40,7 @@ LOGFILE="logfile.log"
 echo "Starting log..." > $LOGFILE
 exec > >(tee -a "$LOGFILE") 2>&1
 
+wget https://raw.githubusercontent.com/CrispStrobe/AutoORPO/master/orpo_run.py
 python orpo_run.py
 
 echo $WANDB_TOKEN
