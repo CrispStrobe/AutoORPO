@@ -151,7 +151,6 @@ upload_log_to_github_gist() {
 
 git clone https://github.com/xfactlab/orpo.git
 cd orpo
-pip install -r requirements.txt
 
 LOGFILE="logfile.log"
 echo "Starting log..." > $LOGFILE
