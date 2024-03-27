@@ -120,7 +120,9 @@ EOF
 
 pip install datasets accelerate wandb transformers bitsandbytes sentencepiece
 pip install flash-attn
-pip install -r REQ_TXT_PATH
+pip install -r $REQ_TXT_PATH
+apt-get update
+apt-get install jq
 
 upload_log_to_github_gist() {
     echo "Uploading log file to GitHub Gist..."
