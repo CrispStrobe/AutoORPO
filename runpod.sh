@@ -1,6 +1,7 @@
 #!/bin/bash
 
 pip install datasets accelerate wandb transformers bitsandbytes sentencepiece
+pip install flash-attn
 
 upload_log_to_github_gist() {
     echo "Uploading log file to GitHub Gist..."
