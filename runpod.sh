@@ -43,17 +43,21 @@ wandb init -p $WANDB_PROJECT
 
 echo "starting main script..."
 accelerate launch --config_file ./src/accelerate/fsdp.yaml main.py \
-    --lr $LEARNING_RATE \
+    --lr_scheduler_type inverse_sqrt \
+    --alpha 0.1 \
+    --torch_compile False \
     --warmup_steps 100 \
     --model_name $MODEL_ID \
     --data_name $DATASET \
+    --lr $LEARNING_RATE \
     --num_train_epochs $EPOCH \
-    --prompt_max_length 128 \
+    --prompt_max_length 512 \
     --response_max_length 2048 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 1 \
-    --num_proc 1
+    --num_proc 1 \
+    --flash_attention_2 
 echo "finished main script..."
 cd $OUTPUT
 cd */
