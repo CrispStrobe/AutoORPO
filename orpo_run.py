@@ -33,6 +33,24 @@ EPOCH = os.environ['EPOCH']
 # Login to Hugging Face Hub
 login(token=HF_TOKEN)
 
+# Load dataset
+ds = load_dataset(DATASET)
+
+# Preprocess dataset
+def process(row):
+    row["prompt"] = tokenizer.apply_chat_template(row["prompt"], tokenize=False)
+    row["chosen"] = tokenizer.apply_chat_template(row["chosen"], tokenize=False)
+    row["rejected"] = tokenizer.apply_chat_template(row["rejected"], tokenize=False)
+    return row
+
+ds = ds.map(
+    process,
+    num_proc=multiprocessing.cpu_count(),
+    load_from_cache_file=False,
+)
+train_dataset = ds["train"]
+eval_dataset = ds["test"]
+
 # Convert EPOCH to an integer
 num_train_epochs = int(EPOCH) if EPOCH else 3  # Default to 3 if EPOCH is not set
 
@@ -73,24 +91,6 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
 tokenizer.padding_side = 'right'
-
-# Load dataset
-ds = load_dataset(DATASET)
-
-# Preprocess dataset
-def process(row):
-    row["prompt"] = tokenizer.apply_chat_template(row["prompt"], tokenize=False)
-    row["chosen"] = tokenizer.apply_chat_template(row["chosen"], tokenize=False)
-    row["rejected"] = tokenizer.apply_chat_template(row["rejected"], tokenize=False)
-    return row
-
-ds = ds.map(
-    process,
-    num_proc=multiprocessing.cpu_count(),
-    load_from_cache_file=False,
-)
-train_dataset = ds["train"]
-eval_dataset = ds["test"]
 
 # Initialize Weights & Biases
 loggedin = wandb.login(key=WANDB_TOKEN)
