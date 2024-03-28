@@ -67,9 +67,9 @@ model_id = MODEL_ID
 tokenizer_id = MODEL_ID
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
 
-# Set the pad token to '</s>' if it's not already set. Or we disably padding altogether.
-#if tokenizer.pad_token is None:
-#    tokenizer.pad_token = tokenizer.eos_token  # Assuming '</s>' is the eos_token
+# Set the pad token if it's not already set. We probably cannbot disable padding altogether without changing the ORPOTrainer code.
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token  # Assuming '</s>' is the eos_token
 
 # Ensure the padding side is consistent with your configuration
 #tokenizer.padding_side = 'right' # usually this should be parsed from tokenizer_config.json sufficiently
