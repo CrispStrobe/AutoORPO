@@ -90,7 +90,14 @@ model = AutoModelForCausalLM.from_pretrained(
     attn_implementation="flash_attention_2",
 )
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_id)
-tokenizer.padding_side = 'right'
+
+# Set the pad token to '</s>' if it's not already set. Or we disably padding altogether.
+#if tokenizer.pad_token is None:
+#    tokenizer.pad_token = tokenizer.eos_token  # Assuming '</s>' is the eos_token
+
+# Ensure the padding side is consistent with your configuration
+#tokenizer.padding_side = 'right' # usually this should be parsed from tokenizer_config.json sufficiently
+#tokenizer.padding_side = 'left'  # Make sure this is intended as per your tokenizer configuration
 
 # Initialize Weights & Biases
 loggedin = wandb.login(key=WANDB_TOKEN)
