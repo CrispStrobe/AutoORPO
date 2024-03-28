@@ -11,7 +11,8 @@ apt-get install jq -y
 
 upload_log_to_github_gist() {
     echo "Uploading log file to GitHub Gist..."
-    GIST_JSON=$(jq -n --arg content "$(cat $LOGFILE)" \
+    # Use cat to pass the log file content to jq via stdin
+    GIST_JSON=$(cat "$LOGFILE" | jq -nR --arg content "$(cat $LOGFILE)" \
         '{public: false, files: {"logfile.log": {content: $content}}}')
     if [ $? -ne 0 ]; then
         echo "Failed to create JSON payload for Gist."
@@ -43,12 +44,12 @@ exec > >(tee -a "$LOGFILE") 2>&1
 wget https://raw.githubusercontent.com/CrispStrobe/AutoORPO/master/orpo_run.py
 python orpo_run.py
 
-echo $WANDB_TOKEN
-echo $WANDB_PROJECT
-echo $MODEL_ID
-echo $DATASET
-echo $LEARNING_RATE
-echo $EPOCH 
+#echo $WANDB_TOKEN
+#echo $WANDB_PROJECT
+#echo $MODEL_ID
+#echo $DATASET
+#echo $LEARNING_RATE
+#echo $EPOCH 
 
 echo "finished main script..."
 
