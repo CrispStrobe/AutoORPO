@@ -62,6 +62,18 @@ cfg = ORPOConfig(
     hub_model_id=NEW_MODEL,
 )
 
+# try some options/alternatives:
+# --optim="adamw_torch_fused",
+# --optim adamw_bnb_8bit \
+# --alpha 0.05 \
+# --torch_compile False \
+# --lr_scheduler_type inverse_sqrt \
+# --gradient_accumulation_steps 1 \
+# --per_device_train_batch_size 8 \
+# --per_device_eval_batch_size 8 \
+# --num_proc 8 \
+# --flash_attention_2
+
 # Load model and tokenizer
 model_id = MODEL_ID
 tokenizer_id = MODEL_ID
